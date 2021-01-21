@@ -1,0 +1,7 @@
+{
+  "name": "AutismOklahomaPhotos",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
