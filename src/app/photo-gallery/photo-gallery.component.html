@@ -2,21 +2,17 @@
   <ion-header>
   </ion-header>
   <ion-content>
-    <h1 class="red-text">{{title}}</h1>
-    <h1 class="blue-text">{{title}}</h1>
+    <h1 class="ion-text-center">{{title}}</h1>
     
     <ion-list>
       <ion-item *ngFor="let image of images">
         <app-photo-gallery-image [imagePath]="image.imagePath"></app-photo-gallery-image>
       </ion-item>
     </ion-list>
+  </ion-content>
+  <ion-footer >
     <ion-button expand="block">
       <ion-icon name="camera-outline"></ion-icon>&nbsp;Add Photo
     </ion-button>
-    <!-- <ion-fab vertical="bottom" horizontal="center" slot="fixed">
-        <ion-fab-button>
-          <ion-icon name="camera"></ion-icon>
-        </ion-fab-button>
-    </ion-fab> -->
-  </ion-content>
+  </ion-footer>
 </ion-app>
