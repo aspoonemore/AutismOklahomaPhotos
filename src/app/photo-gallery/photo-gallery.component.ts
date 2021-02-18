@@ -14,41 +14,26 @@ const { Camera } = Plugins;
 export class PhotoGalleryComponent implements OnInit {
   @Input() title: string = 'Photo Gallery'
   images: AutismOklahomaImageData[] = [];
-  defaultImage: CameraPhoto;
 
   constructor() { }
 
-  ngOnInit() { 
-    this.images.push(
-      { 
-        imagePath: 'assets/bob.jpg', 
-        imageTitle: 'Test 1', 
-        uploadDate: new Date()
-      },
-      { 
-        imagePath: 'assets/goat.jpg', 
-        imageTitle: 'Test 2', 
-        uploadDate: new Date()
-      },
-      { 
-        imagePath: 'assets/goats.JPG', 
-        imageTitle: 'Test 3', 
-        uploadDate: new Date()
-      }
-    );
-
-    console.log(this.images);
-  }
+  ngOnInit() {  }
 
   async takePicture() {
-    const image = await Camera.getPhoto({
+    //take the picture on the camera and get the photo back
+    const image: CameraPhoto = await Camera.getPhoto({
       quality: 90,
       allowEditing: true,
       resultType: CameraResultType.Uri
     });
-    console.log(image);
-    this.defaultImage = image;
-
+    // Set up the object we want to push int our images array
+    let imageData: AutismOklahomaImageData = {
+      imagePath: image.webPath,
+      imageTitle: '',
+      uploadDate: new Date()
+    }
+    //push the image into the array
+    this.images.push(imageData);    
 
     // image.webPath will contain a path that can be set as an image src.
     // You can access the original file using image.path, which can be

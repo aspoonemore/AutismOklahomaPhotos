@@ -3,12 +3,13 @@
   </ion-header>
   <ion-content>
     <h1 class="ion-text-center">{{title}}</h1>
-
-    <app-photo-gallery-image *ngIf="defaultImage" [imagePath]="defaultImage.webPath"></app-photo-gallery-image>
     
     <ion-list>
       <ion-item *ngFor="let image of images">
         <app-photo-gallery-image [imagePath]="image.imagePath"></app-photo-gallery-image>
+        <br>
+        <ion-label position="stacked">Title</ion-label>
+        <ion-input [value]="image.imageTitle"></ion-input>
       </ion-item>
     </ion-list>
   </ion-content>
