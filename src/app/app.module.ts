@@ -10,14 +10,16 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { PhotoGalleryComponent } from './photo-gallery/photo-gallery.component';
 import { PhotoGalleryImageComponent } from './photo-gallery-image/photo-gallery-image.component';
+import { IonicStorageModule } from '@ionic/storage';
 
 @NgModule({
   declarations: [AppComponent, PhotoGalleryComponent, PhotoGalleryImageComponent],
   entryComponents: [],
   imports: [
+    AppRoutingModule,
     BrowserModule,
     IonicModule.forRoot(),
-    AppRoutingModule
+    IonicStorageModule.forRoot()
   ],
   providers: [
     StatusBar,
