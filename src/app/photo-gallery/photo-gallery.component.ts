@@ -2,8 +2,11 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AutismOklahomaImageData } from '../models/imageData';
 
 import { Plugins, CameraResultType, CameraPhoto } from '@capacitor/core';
+import { Storage } from '@ionic/storage';
+import { ThrowStmt } from '@angular/compiler';
 
 const { Camera } = Plugins;
+
 
 @Component({
   selector: 'app-photo-gallery',
@@ -12,43 +15,43 @@ const { Camera } = Plugins;
 })
 
 export class PhotoGalleryComponent implements OnInit {
+  // TODO: Break storage out into a service
   @Input() title: string = 'Photo Gallery'
   images: AutismOklahomaImageData[] = [];
-  defaultImage: CameraPhoto;
 
-  constructor() { }
+  constructor(private storage: Storage) { }
 
-  ngOnInit() { 
-    this.images.push(
-      { 
-        imagePath: 'assets/bob.jpg', 
-        imageTitle: 'Test 1', 
-        uploadDate: new Date()
-      },
-      { 
-        imagePath: 'assets/goat.jpg', 
-        imageTitle: 'Test 2', 
-        uploadDate: new Date()
-      },
-      { 
-        imagePath: 'assets/goats.JPG', 
-        imageTitle: 'Test 3', 
-        uploadDate: new Date()
+  ngOnInit() {
+    this.storage.get('Images').then((val) => {
+      console.log('Images is', val);
+      if (val != null) {
+        this.images = val;
       }
-    );
+    });
+   }
 
-    console.log(this.images);
+  logStorageData() {
+    this.storage.get('Images').then((val) => {
+      console.log('Images is', val);
+    });
   }
 
   async takePicture() {
-    const image = await Camera.getPhoto({
+    //take the picture on the camera and get the photo back
+    const image: CameraPhoto = await Camera.getPhoto({
       quality: 90,
       allowEditing: true,
       resultType: CameraResultType.Uri
     });
-    console.log(image);
-    this.defaultImage = image;
-
+    // Set up the object we want to push int our images array
+    let imageData: AutismOklahomaImageData = {
+      imagePath: image.webPath,
+      imageTitle: '',
+      uploadDate: new Date()
+    }
+    //push the image into the array
+    this.images.push(imageData);
+    this.storage.set('Images', this.images)
 
     // image.webPath will contain a path that can be set as an image src.
     // You can access the original file using image.path, which can be
