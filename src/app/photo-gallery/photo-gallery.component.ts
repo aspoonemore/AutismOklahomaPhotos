@@ -4,6 +4,7 @@ import { AutismOklahomaImageData } from '../models/imageData';
 import { Plugins, CameraResultType, CameraPhoto } from '@capacitor/core';
 import { Storage } from '@ionic/storage';
 import { ThrowStmt } from '@angular/compiler';
+import { StorageService } from '../services/storage.service';
 
 const { Camera } = Plugins;
 
@@ -19,19 +20,19 @@ export class PhotoGalleryComponent implements OnInit {
   @Input() title: string = 'Photo Gallery'
   images: AutismOklahomaImageData[] = [];
 
-  constructor(private storage: Storage) { }
+  constructor(private storageService: StorageService) { }
 
   ngOnInit() {
-    this.storage.get('Images').then((val) => {
-      console.log('Images is', val);
-      if (val != null) {
-        this.images = val;
+    this.storageService.get('Images').then(result => {
+      console.log(result);
+      if (result && result.length > 0) {
+        this.images = result;
       }
-    });
+    })
    }
 
   logStorageData() {
-    this.storage.get('Images').then((val) => {
+    this.storageService.get('Images').then((val) => {
       console.log('Images is', val);
     });
   }
@@ -51,8 +52,9 @@ export class PhotoGalleryComponent implements OnInit {
     }
     //push the image into the array
     this.images.push(imageData);
-    this.storage.set('Images', this.images)
+    // this.storage.set('Images', this.images).then(result => console.log(result))
 
+    this.storageService.set('Images', this.images);
     // image.webPath will contain a path that can be set as an image src.
     // You can access the original file using image.path, which can be
     // passed to the Filesystem API to read the raw data of the image,
